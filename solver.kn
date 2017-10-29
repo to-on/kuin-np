@@ -11,7 +11,7 @@
 
   +func printPuzzle(puz: []int)
     ; size
-    if (^puz<>cell_size)
+    if (^puz <> cell_size)
       do cui@print("error puz size : \{^puz}\n")
       ret
     end if
@@ -43,8 +43,40 @@
     do cui@print("\{bar}")
   end func
 
-  func init()
+  +func printCandidates()
+    for j(0, board_size - 1)
+      for by(0, box_y - 1)
+        for i(0, board_size - 1)
+          var p: int :: i + j * board_size
+          for bx(0, box_x - 1)
+            var n: int :: bx + by * box_x
+            if (me.candidates[p].and(1b16.shl(n)) <> 0b16)
+              do cui@print("\{n + 1}")
+            else
+              do cui@print(" ")
+            end if
+          end for
+          do cui@print(" ")
+        end for
+        do cui@print("\n")
+      end for
+    end for
   end func
+
+  func init()
+    do me.candidates :: #[cell_size]bit16
+    for i(0, ^me.candidates - 1)
+      do me.candidates[i] :: 0b16.not().shr(16 - board_size)
+    end for
+    do me.answer :: #[cell_size]int
+    do me.emptyCellCount :: 0
+    do me.noSolutionFlag :: false
+  end func
+
+  *func ctor()
+    do me.init()
+  end func
+
   func deleteCandidate()
   end func
   func putNumber()

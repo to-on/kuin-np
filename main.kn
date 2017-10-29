@@ -3,4 +3,5 @@ func main()
   var puz: []int :: [1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6]
   var solver: \solver@Solver :: #\solver@Solver
   do solver.printPuzzle(puz)
+  do solver.printCandidates()
 end func
