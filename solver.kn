@@ -1,0 +1,33 @@
++class Solver()
+  const box_x: int :: 3
+  const box_y: int :: 2
+  const board_size: int :: box_x * box_y
+  const cell_size: int :: board_size * board_size
+
+  var candidates: []bit16
+  var answer: []int
+  var emptyCellCount: int
+  var noSolutionFlag: bool
+
+  +func testprint(puz: []int)
+    if (^puz<>cell_size)
+      do cui@print("puz size : \{^puz}\n")
+      ret
+    end if
+    var s: []char
+    for i(0, ^puz - 1)
+      do cui@print("\{puz[i]}")
+    end for
+  end func
+
+  func init()
+  end func
+  func deleteCandidate()
+  end func
+  func putNumber()
+  end func
+  func setPuzzle()
+  end func
+  func calcScore()
+  end func
+end class
