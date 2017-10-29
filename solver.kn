@@ -9,15 +9,38 @@
   var emptyCellCount: int
   var noSolutionFlag: bool
 
-  +func testprint(puz: []int)
+  +func printPuzzle(puz: []int)
+    ; size
     if (^puz<>cell_size)
-      do cui@print("puz size : \{^puz}\n")
+      do cui@print("error puz size : \{^puz}\n")
       ret
     end if
-    var s: []char
-    for i(0, ^puz - 1)
-      do cui@print("\{puz[i]}")
+
+    ; bar
+    var bar: []char :: "+"
+    for (1, box_y)
+      for (1, box_x)
+        do bar:~ "-"
+      end for
+      do bar:~ "+"
     end for
+    do bar:~ "\n"
+
+    ; print
+    for j(0, board_size - 1)
+      if (j % box_y = 0)
+        do cui@print("\{bar}")
+      end if
+      for i(0, board_size - 1)
+        if (i % box_x = 0)
+          do cui@print("|")
+        end if
+        var p: int :: i + j * board_size
+        do cui@print("\{puz[p]}")
+      end for
+      do cui@print("|\n")
+    end for
+    do cui@print("\{bar}")
   end func
 
   func init()

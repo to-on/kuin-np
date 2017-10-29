@@ -1,6 +1,6 @@
 func main()
-  do cui@print("np")
-  var puz: []int :: [1,2,3,4,5]
+  do cui@print("np\n")
+  var puz: []int :: [1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6,1,2,3,4,5,6]
   var solver: \solver@Solver :: #\solver@Solver
-  do solver.testprint(puz)
+  do solver.printPuzzle(puz)
 end func
