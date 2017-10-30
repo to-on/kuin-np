@@ -43,6 +43,10 @@
     do cui@print("\{bar}")
   end func
 
+  +func printAnswer()
+    do me.printPuzzle(me.answer)
+  end func
+
   +func printCandidates()
     for j(0, board_size - 1)
       for by(0, box_y - 1)
@@ -69,7 +73,7 @@
       do me.candidates[i] :: 0b16.not().shr(16 - board_size)
     end for
     do me.answer :: #[cell_size]int
-    do me.emptyCellCount :: 0
+    do me.emptyCellCount :: cell_size
     do me.noSolutionFlag :: false
   end func
 
@@ -77,12 +81,58 @@
     do me.init()
   end func
 
-  func deleteCandidate()
+  +func deleteCandidate(p: int, n: int)
+    if (me.noSolutionFlag)
+      ret
+    end if
+    var b: bit16 :: 1b16.shl(n)
+    if (me.candidates[p].and(b) = 0b16)
+      ret
+    end if
+    do me.candidates[p] :: me.candidates[p].and(b.not())
+
+
   end func
-  func putNumber()
+
+  +func putNumber(p: int, n: int)
+    if (me.noSolutionFlag)
+      ret
+    end if
+    var b: bit16 :: 1b16.shl(n)
+    if (me.candidates[p].and(b) = 0b16)
+      do me.noSolutionFlag :: true
+      ret
+    end if
+    if (me.answer[p] <> 0)
+      if (me.answer[p] <> n + 1)
+        do me.noSolutionFlag :: true
+      end if
+      ret
+    end if
+
+    ; 確定処理
+    do me.answer[p] :: n + 1
+    do me.emptyCellCount :- 1
+
+    var x: int :: p % board_size
+    var y: int :: p / board_size
+    var bx: int :: x / box_x * box_x
+    var by: int :: y / box_y * box_y
+    for i(0, board_size - 1)
+      if (x <> i)
+        do me.deleteCandidate(i + y * board_size, n)
+      end if
+      if (y <> i)
+        do me.deleteCandidate(x + i * board_size, n)
+      end if
+      var j: int :: bx + i % box_x + (by + i / box_x) * board_size
+      if (j <> p)
+        do me.deleteCandidate(j, n)
+      end if
+    end for
   end func
-  func setPuzzle()
+  +func setPuzzle(puz: []int)
   end func
-  func calcScore()
+  +func calcScore()
   end func
 end class
