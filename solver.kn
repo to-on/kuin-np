@@ -147,6 +147,21 @@
       do me.putNumber(q, n)
     end if
 
+    ; cell
+    do cnt :: 0
+    for i(0, board_size - 1)
+      if (me.candidates[p].and(1b16.shl(i)) <> 0b16)
+        do cnt :+ 1
+        do q :: i
+        if (cnt > 1)
+          break i
+        end if
+      end if
+    end for
+    if (cnt = 1)
+      do me.putNumber(p, q)
+    end if
+
   end func
 
   +func putNumber(p: int, n: int)
@@ -174,6 +189,9 @@
     var bx: int :: x / box_x * box_x
     var by: int :: y / box_y * box_y
     for i(0, board_size - 1)
+      if (i <> n)
+        do me.deleteCandidate(p, i)
+      end if
       if (x <> i)
         do me.deleteCandidate(i + y * board_size, n)
       end if
@@ -188,6 +206,15 @@
   end func
 
   +func setPuzzle(puz: []int)
+    do me.init()
+    for i(0, ^puz)
+      if (i >= cell_size)
+        break i
+      end if
+      if (puz[i] <> 0)
+        do me.putNumber(i, puz[i] - 1)
+      end if
+    end for
   end func
 
   +func calcScore()
