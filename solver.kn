@@ -91,6 +91,61 @@
     end if
     do me.candidates[p] :: me.candidates[p].and(b.not())
 
+    var x: int :: p % board_size
+    var y: int :: p / board_size
+    var bx: int :: x / box_x * box_x
+    var by: int :: y / box_y * box_y
+
+    var cnt: int
+    var q: int
+
+    ; row
+    do cnt :: 0
+    for i(0, board_size - 1)
+      var t: int :: i + y * board_size
+      if (me.candidates[t].and(b) <> 0b16)
+        do cnt :+ 1
+        do q :: t
+        if (cnt > 1)
+          break i
+        end if
+      end if
+    end for
+    if (cnt = 1)
+      do me.putNumber(q, n)
+    end if
+
+    ; column
+    do cnt :: 0
+    for i(0, board_size - 1)
+      var t: int :: x + i * board_size
+      if (me.candidates[t].and(b) <> 0b16)
+        do cnt :+ 1
+        do q :: t
+        if (cnt > 1)
+          break i
+        end if
+      end if
+    end for
+    if (cnt = 1)
+      do me.putNumber(q, n)
+    end if
+
+    ; box
+    do cnt :: 0
+    for i(0, board_size - 1)
+      var t: int :: bx + i % box_x + (by + i / box_x) * board_size
+      if (me.candidates[t].and(b) <> 0b16)
+        do cnt :+ 1
+        do q :: t
+        if (cnt > 1)
+          break i
+        end if
+      end if
+    end for
+    if (cnt = 1)
+      do me.putNumber(q, n)
+    end if
 
   end func
 
@@ -131,8 +186,10 @@
       end if
     end for
   end func
+
   +func setPuzzle(puz: []int)
   end func
+
   +func calcScore()
   end func
 end class
