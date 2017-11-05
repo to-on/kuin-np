@@ -1,5 +1,22 @@
 func main()
-  do cui@print("np\n")
+
+  {{{
+  var solver: \solver@Solver :: #\solver@Solver
+  var count: int :: 0
+  var line: []char
+  var reader: file@Reader :: file@makeReader("17puz49157.txt")
+  for i(1, 49157)
+	do line :: reader.readLine()  
+	do solver.setPuzzleStr(line)
+	if (solver.getScore() = 0)
+	  do count :+ 1
+	end if
+  end for
+  do cui@print("\{count}\n")
+  ret
+  }}}
+
+  ;{{{
   ;var puz: []int :: [0,0,3,0,0,0,0,0,1,0,0,0,5,0,0,0,0,4,4,0,0,0,0,3,0,0,0,2,0,0,0,0,0,1,0,0]
   ;var puz: []int :: [0,0,2,0,0,0,0,0,1,0,0,0,6,0,0,0,0,4,5,0,0,0,0,6,0,0,0,2,0,0,0,0,0,3,0,0]
   var puz: []int :: [0,0,1,0,0,0,0,0,6,0,0,0,5,0,0,0,0,1,2,0,0,0,0,3,0,0,0,5,0,0,0,0,0,4,0,0]
@@ -13,4 +30,5 @@ func main()
   do solver.setPuzzle(puz)
   do solver.printAnswer()
   do solver.printCandidates()
+  ;}}}
 end func
