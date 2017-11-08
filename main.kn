@@ -17,18 +17,9 @@ func main()
   }}}
 
   ;{{{
-  ;var puz: []int :: [0,0,3,0,0,0,0,0,1,0,0,0,5,0,0,0,0,4,4,0,0,0,0,3,0,0,0,2,0,0,0,0,0,1,0,0]
-  ;var puz: []int :: [0,0,2,0,0,0,0,0,1,0,0,0,6,0,0,0,0,4,5,0,0,0,0,6,0,0,0,2,0,0,0,0,0,3,0,0]
-  var puz: []int :: [0,0,1,0,0,0,0,0,6,0,0,0,5,0,0,0,0,1,2,0,0,0,0,3,0,0,0,5,0,0,0,0,0,4,0,0]
+  var generator: \generator@Generator :: #\generator@Generator
+  do generator.generate(20)
   var solver: \solver@Solver :: #\solver@Solver
-  ;do solver.putNumber(0,0)
-  ;do solver.putNumber(1,1)
-  ;do solver.printAnswer()
-  ;do solver.printCandidates()
-  ;do solver.putNumber(9,2)
-  do solver.printPuzzle(puz)
-  do solver.setPuzzle(puz)
-  do solver.printAnswer()
-  do solver.printCandidates()
+  do solver.printPuzzle(generator.getPuzzle())
   ;}}}
 end func

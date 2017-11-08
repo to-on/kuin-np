@@ -1,0 +1,44 @@
++class Generator()
+  var puzzle: []int
+  var score: int
+
+  func initPuzzle(clueCount: int): bool
+    var solver: \solver@Solver :: #\solver@Solver
+    var count: int :: 0
+    var r: lib@Rnd :: lib@makeRnd(-1)
+    do me.puzzle :: #[solver.getCellSize()]int
+    do me.score :: solver.getCellSize()
+    while i(count < clueCount)
+      var p: int :: r.rnd(0, solver.getCellSize() - 1)
+      if (me.puzzle[p] <> 0)
+        skip i
+      end if
+      var n: int :: r.rnd(1, solver.getBoardSize())
+      if (solver.candidates[p].and(1b16.shl(n - 1)) = 0b16)
+        skip i
+      end if
+      do solver.putNumber(p, n - 1)
+      do count :+ 1
+      if (me.score < solver.getScore())
+        ret false
+      end if
+      do me.score :: solver.getScore()
+      do me.puzzle[p] :: n
+    end while
+    ret true
+  end func
+
+  func localSearch(): bool
+    ret false
+  end func
+
+  +func generate(clueCount: int): bool
+    while (me.initPuzzle(clueCount) = false)
+    end while
+    ret true
+  end func
+
+  +func getPuzzle(): []int
+    ret me.puzzle
+  end func
+end class

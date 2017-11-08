@@ -4,8 +4,15 @@
   const board_size: int :: box_x * box_y
   const cell_size: int :: board_size * board_size
 
-  var candidates: []bit16
-  var answer: []int
+  +func getBoardSize(): int
+    ret board_size
+  end func
+  +func getCellSize(): int
+    ret cell_size
+  end func
+
+  +var candidates: []bit16
+  +var answer: []int
   var emptyCellCount: int
   var noSolutionFlag: bool
 
