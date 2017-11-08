@@ -1,28 +1,39 @@
 +class Generator()
   var puzzle: []int
   var score: int
+  var solver: \solver@Solver
+  var r: lib@Rnd
+
+  func shuffle(a: &[]int)
+    for i(^a - 1, 1, -1)
+      var j: int :: me.r.rnd(0, i)
+      var t: int :: a[i]
+      do a[i] :: a[j]
+      do a[j] :: t
+    end for
+  end func
 
   func initPuzzle(clueCount: int): bool
-    var solver: \solver@Solver :: #\solver@Solver
     var count: int :: 0
-    var r: lib@Rnd :: lib@makeRnd(-1)
-    do me.puzzle :: #[solver.getCellSize()]int
-    do me.score :: solver.getCellSize()
+    do me.r :: lib@makeRnd(-1)
+    do me.solver :: #\solver@Solver
+    do me.puzzle :: #[me.solver.getCellSize()]int
+    do me.score :: me.solver.getCellSize()
     while i(count < clueCount)
-      var p: int :: r.rnd(0, solver.getCellSize() - 1)
+      var p: int :: me.r.rnd(0, me.solver.getCellSize() - 1)
       if (me.puzzle[p] <> 0)
         skip i
       end if
-      var n: int :: r.rnd(1, solver.getBoardSize())
-      if (solver.candidates[p].and(1b16.shl(n - 1)) = 0b16)
+      var n: int :: me.r.rnd(1, me.solver.getBoardSize())
+      if (me.solver.candidates[p].and(1b16.shl(n - 1)) = 0b16)
         skip i
       end if
-      do solver.putNumber(p, n - 1)
+      do me.solver.putNumber(p, n - 1)
       do count :+ 1
-      if (me.score < solver.getScore())
+      if (me.score < me.solver.getScore())
         ret false
       end if
-      do me.score :: solver.getScore()
+      do me.score :: me.solver.getScore()
       do me.puzzle[p] :: n
     end while
     ret true
@@ -35,7 +46,12 @@
   +func generate(clueCount: int): bool
     while (me.initPuzzle(clueCount) = false)
     end while
-    ret true
+    while (me.localSearch(), skip)
+      if (me.score = 0)
+        ret true
+      end if
+    end while
+    ret false
   end func
 
   +func getPuzzle(): []int
