@@ -60,10 +60,18 @@
       var m: int :: me.puzzle[p]
       do me.puzzle[p] :: 0
       for q(0, ^me.posList - 1)
+        if (me.puzzle[q] <> 0)
+          skip q
+        end if
         for n(0, ^me.numList - 1)
           do me.puzzle[q] :: n
           do me.solver.setPuzzle(me.puzzle)
-          
+          var t: int :: me.solver.getScore()
+          if (me.score > t)
+            do me.score :: t
+            ret true
+          end if
+          do me.puzzle[q] :: 0
         end for
       end for
       do me.puzzle[p] :: m

@@ -43,7 +43,11 @@
           do cui@print("|")
         end if
         var p: int :: i + j * board_size
-        do cui@print("\{puz[p]}")
+        if (puz[p] <> 0)
+          do cui@print("\{puz[p]}")
+        else
+          do cui@print(".")
+        end if
       end for
       do cui@print("|\n")
     end for

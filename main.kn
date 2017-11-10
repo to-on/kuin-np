@@ -6,19 +6,23 @@ func main()
   var line: []char
   var reader: file@Reader :: file@makeReader("17puz49157.txt")
   for i(1, 49157)
-	do line :: reader.readLine()  
-	do solver.setPuzzleStr(line)
-	if (solver.getScore() = 0)
-	  do count :+ 1
-	end if
+    do line :: reader.readLine()  
+    do solver.setPuzzleStr(line)
+    if (solver.getScore() = 0)
+      do count :+ 1
+    end if
   end for
   do cui@print("\{count}\n")
   ret
   }}}
 
   ;{{{
+  var count: int :: 0
   var generator: \generator@Generator :: #\generator@Generator
-  do generator.generate(20)
+  while (generator.generate(8) = false)
+    do count :+ 1
+    do cui@print("\{count}\n")
+  end while
   var solver: \solver@Solver :: #\solver@Solver
   do solver.printPuzzle(generator.getPuzzle())
   do solver.setPuzzle(generator.getPuzzle())
