@@ -2,6 +2,7 @@
   var solver: \solver@Solver
   var puzzle: []int
   var score: int
+  var posList: []int
   var numList: []int
 
   func initPuzzle(clueCount: int): bool
@@ -9,9 +10,13 @@
     do me.solver :: #\solver@Solver
     do me.puzzle :: #[me.solver.getCellSize()]int
     do me.score :: me.solver.getCellSize()
+    do me.posList :: #[me.solver.getCellSize()]int
     do me.numList :: #[me.solver.getBoardSize()]int
     var r: lib@Rnd :: lib@makeRnd(-1)
 
+    for i(0, ^me.posList - 1)
+      do me.posList[i] :: i
+    end for
     for i(0, ^me.numList - 1)
       do me.numList[i] :: i + 1
     end for
@@ -22,7 +27,7 @@
         skip i
       end if
       var n: int :: r.rnd(1, me.solver.getBoardSize())
-      if (me.solver.candidates[p].and(1b16.shl(n - 1)) = 0b16)
+      if (me.solver.getCandidate(p, n))
         skip i
       end if
       do me.solver.putNumber(p, n - 1)
@@ -37,17 +42,32 @@
   end func
 
   func localSearch(): bool
-    var posList: []int :: #[0]int
+    var clueList: []int :: #[0]int
     var a: []int :: #[1]int
     for i(0, ^me.puzzle - 1)
       if (me.puzzle[i] <> 0)
         do a[0] :: i
-        do posList :~ a
+        do clueList :~ a
       end if
     end for
 
-    do posList.shuffle()
+    do clueList.shuffle()
+    do me.posList.shuffle()
     do me.numList.shuffle()
+
+    for i(0, ^clueList - 1)
+      var p: int :: clueList[i]
+      var m: int :: me.puzzle[p]
+      do me.puzzle[p] :: 0
+      for q(0, ^me.posList - 1)
+        for n(0, ^me.numList - 1)
+          do me.puzzle[q] :: n
+          do me.solver.setPuzzle(me.puzzle)
+          
+        end for
+      end for
+      do me.puzzle[p] :: m
+    end for
 
     ret false
   end func

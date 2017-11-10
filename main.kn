@@ -21,5 +21,9 @@ func main()
   do generator.generate(20)
   var solver: \solver@Solver :: #\solver@Solver
   do solver.printPuzzle(generator.getPuzzle())
+  do solver.setPuzzle(generator.getPuzzle())
+  do solver.printAnswer()
   ;}}}
+
+
 end func

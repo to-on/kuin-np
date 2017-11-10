@@ -11,8 +11,8 @@
     ret cell_size
   end func
 
-  +var candidates: []bit16
-  +var answer: []int
+  var candidates: []bit16
+  var answer: []int
   var emptyCellCount: int
   var noSolutionFlag: bool
 
@@ -54,6 +54,7 @@
     do me.printPuzzle(me.answer)
   end func
 
+  {{{
   +func printCandidates()
     for j(0, board_size - 1)
       for by(0, box_y - 1)
@@ -73,6 +74,7 @@
       end for
     end for
   end func
+  }}}
 
   func init()
     do me.candidates :: #[cell_size]bit16
@@ -250,6 +252,10 @@
         do me.putNumber(i, n - 1)
       end if
     end for
+  end func
+
+  +func getCandidate(p: int, n: int): bool
+    ret me.candidates[p].and(1b16.shl(n - 1)) = 0b16
   end func
 
   +func getScore(): int
